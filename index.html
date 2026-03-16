@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knowledge Node Hunt – Scavenger Challenge</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Game Container -->
+    <div id="game-root">
+        <!-- Start Screen -->
+        <div id="start-screen" class="screen active">
+            <div class="title-container">
+                <h1 class="game-title">Knowledge Node Hunt</h1>
+                <p class="tagline">Navigate the Neon Knowledge Universe</p>
+                <p class="subtitle">Collect All Six CAMS Content Nodes to Master Digital Information Discovery</p>
+            </div>
+            
+            <!-- Node Legend -->
+            <div class="node-legend">
+                <h3>Content Nodes to Collect:</h3>
+                <div class="legend-grid">
+                    <div class="legend-item reference">
+                        <span class="node-icon">📖</span>
+                        <div class="node-info">
+                            <span class="node-name">Reference</span>
+                            <span class="node-desc">Foundational Knowledge</span>
+                        </div>
+                    </div>
+                    <div class="legend-item research">
+                        <span class="node-icon">📒</span>
+                        <div class="node-info">
+                            <span class="node-name">Research</span>
+                            <span class="node-desc">Academic Content</span>
+                        </div>
+                    </div>
+                    <div class="legend-item documentation">
+                        <span class="node-icon">📄</span>
+                        <div class="node-info">
+                            <span class="node-name">Documentation</span>
+                            <span class="node-desc">Technical Guides</span>
+                        </div>
+                    </div>
+                    <div class="legend-item discovery">
+                        <span class="node-icon">🔍</span>
+                        <div class="node-info">
+                            <span class="node-name">Discovery</span>
+                            <span class="node-desc">Exploration Tools</span>
+                        </div>
+                    </div>
+                    <div class="legend-item communication">
+                        <span class="node-icon">🔔</span>
+                        <div class="node-info">
+                            <span class="node-name">Communication</span>
+                            <span class="node-desc">Messaging Systems</span>
+                        </div>
+                    </div>
+                    <div class="legend-item process">
+                        <span class="node-icon">⚙️</span>
+                        <div class="node-info">
+                            <span class="node-name">Process</span>
+                            <span class="node-desc">Automated Workflows</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="start-controls">
+                <button id="start-btn" class="neon-button">Enter the Knowledge Universe</button>
+                <div class="instructions">
+                    <p>🎯 <strong>Objective:</strong> Collect all 6 content nodes before time runs out!</p>
+                    <p>⚡ <strong>Controls:</strong> Click or tap nodes to capture them</p>
+                    <p>⏱️ <strong>Time Limit:</strong> 90 seconds</p>
+                    <p>🏆 <strong>Victory:</strong> Find all 6 different node types</p>
+                    <p style="color: #ff0000;">⚠️ <strong>DANGER:</strong> Avoid red Virus Nodes ☠️ - they steal 3 seconds!</p>
+                    <p style="color: #ff6600;">🚨 <strong>BEWARE:</strong> Some nodes may be corrupted decoys 📚 - look carefully!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Game Screen -->
+        <div id="game-screen" class="screen">
+            <!-- HUD -->
+            <div class="game-hud">
+                <div class="hud-left">
+                    <div class="score-display">
+                        <span class="label">Score:</span>
+                        <span id="score">0</span>
+                    </div>
+                    <div class="timer-display">
+                        <span class="label">Time:</span>
+                        <span id="timer">90</span>
+                    </div>
+                </div>
+                <div class="hud-right">
+                    <div class="nodes-collected">
+                        <span class="label">Nodes Collected:</span>
+                        <div id="collected-nodes" class="collected-display">
+                            <div class="node-slot reference" data-type="reference">📖</div>
+                            <div class="node-slot research" data-type="research">📒</div>
+                            <div class="node-slot documentation" data-type="documentation">📄</div>
+                            <div class="node-slot discovery" data-type="discovery">🔍</div>
+                            <div class="node-slot communication" data-type="communication">🔔</div>
+                            <div class="node-slot process" data-type="process">⚙️</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Game Arena -->
+            <div id="game-arena">
+                <!-- Nodes will be dynamically spawned here -->
+            </div>
+
+            <!-- Pause Button -->
+            <button id="pause-btn" class="control-btn">⏸️ Pause</button>
+        </div>
+
+        <!-- End Screen -->
+        <div id="end-screen" class="screen">
+            <div class="end-container">
+                <h2 id="end-title">Mission Complete!</h2>
+                <div id="end-message">
+                    <p>You've successfully navigated the Knowledge Universe!</p>
+                </div>
+                <div class="final-stats">
+                    <div class="stat">
+                        <span class="stat-label">Final Score:</span>
+                        <span id="final-score" class="stat-value">0</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Nodes Found:</span>
+                        <span id="nodes-found" class="stat-value">0/6</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-label">Time Used:</span>
+                        <span id="time-used" class="stat-value">0s</span>
+                    </div>
+                </div>
+                
+                <div id="achievement-display"></div>
+                
+                <div class="end-controls">
+                    <button id="play-again-btn" class="neon-button">Hunt Again</button>
+                    <button id="home-btn" class="neon-button secondary">Return to Start</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pause Screen -->
+        <div id="pause-screen" class="screen overlay">
+            <div class="pause-container">
+                <h2>Game Paused</h2>
+                <p>Take a break, the Knowledge Universe will wait...</p>
+                <div class="pause-controls">
+                    <button id="resume-btn" class="neon-button">Resume Hunt</button>
+                    <button id="quit-btn" class="neon-button secondary">Quit to Start</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio (optional, for future enhancement) -->
+    <!-- <audio id="collect-sound" preload="auto">
+        <source src="sounds/collect.wav" type="audio/wav">
+    </audio> -->
+
+    <script src="game.js"></script>
+</body>
+</html>
