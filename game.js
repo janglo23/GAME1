@@ -1,5 +1,5 @@
 // ========================================
-// Knowledge Node Hunt - Game Logic
+// Escape the Upside Down - Game Logic
 // ========================================
 
 // Game State
@@ -8,13 +8,13 @@ const gameState = {
     isPlaying: false,
     isPaused: false,
     score: 0,
-    timeRemaining: 25,
+    timeRemaining: 10,
     collectedTypes: new Set(),
     nodes: [],
     gameStartTime: 0,
     lastNodeSpawn: 0,
-    nodeSpawnInterval: 1200, // milliseconds - faster spawning for competitive play
-    penaltySpawnInterval: 2000, // milliseconds - separate timer for penalty nodes
+    nodeSpawnInterval: 800, // milliseconds - much faster spawning for 10s game
+    penaltySpawnInterval: 1000, // milliseconds - frequent penalty spawns to match node collection rate
     gameTimer: null,
     spawnTimer: null,
     penaltySpawnTimer: null
@@ -24,59 +24,59 @@ const gameState = {
 const nodeTypes = {
     reference: { 
         icon: '📖', 
-        color: '#0099ff', 
+        color: '#ff0066', 
         name: 'Reference',
         points: 100,
-        spawnChance: 0.9
+        spawnChance: 1.0
     },
     research: { 
         icon: '📒', 
         color: '#00ff00', 
         name: 'Research',
         points: 120,
-        spawnChance: 0.9
+        spawnChance: 1.0
     },
     documentation: { 
         icon: '📄', 
         color: '#ff6600', 
         name: 'Documentation',
         points: 110,
-        spawnChance: 0.9
+        spawnChance: 1.0
     },
     discovery: { 
         icon: '🔍', 
         color: '#9900ff', 
         name: 'Discovery',
         points: 130,
-        spawnChance: 0.9
+        spawnChance: 1.0
     },
     communication: { 
         icon: '🔔', 
-        color: '#ff0099', 
+        color: '#ffff00', 
         name: 'Communication',
         points: 115,
-        spawnChance: 0.9
+        spawnChance: 1.0
     },
     process: { 
         icon: '⚙️', 
-        color: '#ffcc00', 
+        color: '#00ccff', 
         name: 'Process',
         points: 125,
-        spawnChance: 0.9
+        spawnChance: 1.0
     },
     penalty: {
-        icon: '☠️',
+        icon: '📚',
         color: '#ff0000',
-        name: 'Virus Node',
+        name: 'Corrupted Reference',
         points: 0,
         spawnChance: 0.01, // Reduced since they have separate spawning
         isPenalty: true,
         timePenalty: 3
     },
     decoy: {
-        icon: '📚', // Similar book icon but slightly different
-        color: '#0099ff',
-        name: 'Corrupted Reference',
+        icon: '📋', // Similar to documentation but different
+        color: '#990000',
+        name: 'Infected Documentation',
         points: 0,
         spawnChance: 0.01,
         isPenalty: true,
@@ -192,7 +192,7 @@ function startGame() {
     gameState.isPlaying = true;
     gameState.isPaused = false;
     gameState.score = 0;
-    gameState.timeRemaining = 25;
+    gameState.timeRemaining = 10;
     gameState.collectedTypes = new Set();
     gameState.nodes = [];
     gameState.gameStartTime = Date.now();
@@ -212,8 +212,8 @@ function startGame() {
     // Start game loop
     startGameLoop();
     
-    // Spawn initial nodes
-    spawnRandomNode();
+    // Spawn initial nodes - guarantee at least 3 different types start
+    spawnInitialNodes();
     spawnPenaltyNode(); // Start with a penalty node
 }
 
@@ -244,7 +244,7 @@ function endGame(victory = false) {
     clearTimers();
     
     // Calculate final stats
-    const timeUsed = 25 - gameState.timeRemaining;
+    const timeUsed = 10 - gameState.timeRemaining;
     const nodesCollected = gameState.collectedTypes.size;
     
     // Update end screen
@@ -358,6 +358,24 @@ function updateGame() {
 // ========================================
 // Node Management
 // ========================================
+// Node Spawning
+// ========================================
+
+function spawnInitialNodes() {
+    if (!gameState.isPlaying || gameState.isPaused) return;
+    
+    // Get all non-penalty node types
+    const typeNames = Object.keys(nodeTypes).filter(type => !nodeTypes[type].isPenalty);
+    
+    // Spawn 3-4 different node types immediately to give player a good start
+    const initialSpawnCount = Math.min(4, typeNames.length);
+    const shuffledTypes = [...typeNames].sort(() => Math.random() - 0.5);
+    
+    for (let i = 0; i < initialSpawnCount; i++) {
+        const position = getRandomPosition();
+        createNode(shuffledTypes[i], position.x, position.y);
+    }
+}
 
 function spawnRandomNode() {
     if (!gameState.isPlaying || gameState.isPaused) return;
@@ -375,13 +393,13 @@ function spawnRandomNode() {
 function spawnPenaltyNode() {
     if (!gameState.isPlaying || gameState.isPaused) return;
     
-    // 70% chance to spawn a penalty node each time
-    if (Math.random() < 0.7) {
+    // 80% chance to spawn a penalty node each time (high rate for challenge)
+    if (Math.random() < 0.8) {
         // Get random position
         const position = getRandomPosition();
         
-        // 30% chance for decoy node, 70% chance for virus node
-        const penaltyType = Math.random() < 0.3 ? 'decoy' : 'penalty';
+        // 50% chance for decoy node, 50% chance for penalty node
+        const penaltyType = Math.random() < 0.5 ? 'decoy' : 'penalty';
         
         // Create penalty node
         createNode(penaltyType, position.x, position.y);
@@ -391,11 +409,24 @@ function spawnPenaltyNode() {
 function selectNodeType() {
     // Only select from non-penalty nodes since penalty nodes spawn separately
     const typeNames = Object.keys(nodeTypes).filter(type => !nodeTypes[type].isPenalty);
+    
+    // For 10s game, heavily prioritize uncollected types
+    const uncollectedTypes = typeNames.filter(type => !gameState.collectedTypes.has(type));
+    
+    // If we have uncollected types, always spawn them with high priority
+    if (uncollectedTypes.length > 0) {
+        // 90% chance to spawn an uncollected type
+        if (Math.random() < 0.9) {
+            return uncollectedTypes[Math.floor(Math.random() * uncollectedTypes.length)];
+        }
+    }
+    
+    // Fallback to weighted random selection
     const weights = typeNames.map(type => {
         let baseWeight = nodeTypes[type].spawnChance;
-        // Boost uncollected good types
+        // Massive boost for uncollected types
         if (!gameState.collectedTypes.has(type)) {
-            baseWeight *= 1.5;
+            baseWeight *= 10; // Much higher multiplier for 10s game
         }
         return baseWeight;
     });
