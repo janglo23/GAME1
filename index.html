@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Knowledge Node Hunt – Scavenger Challenge</title>
+    <title>Escape the Upside Down – Stranger Things Hunt</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -12,9 +12,9 @@
         <!-- Start Screen -->
         <div id="start-screen" class="screen active">
             <div class="title-container">
-                <h1 class="game-title">Knowledge Node Hunt</h1>
-                <p class="tagline">Navigate the Neon Knowledge Universe</p>
-                <p class="subtitle">Collect All Six CAMS Content Nodes to Master Digital Information Discovery</p>
+                <h1 class="game-title">Escape the Upside Down</h1>
+                <p class="tagline">Navigate the Dark Dimension of Hawkins</p>
+                <p class="subtitle">Collect All Six Essential Items to Escape Before the Mind Flayer Finds You</p>
             </div>
             
             <!-- Node Legend -->
@@ -67,14 +67,14 @@
             </div>
             
             <div class="start-controls">
-                <button id="start-btn" class="neon-button">Enter the Knowledge Universe</button>
+                <button id="start-btn" class="neon-button">Enter the Upside Down</button>
                 <div class="instructions">
-                    <p>🎯 <strong>Objective:</strong> Collect all 6 content nodes before time runs out!</p>
-                    <p>⚡ <strong>Controls:</strong> Click or tap nodes to capture them</p>
-                    <p>⏱️ <strong>Time Limit:</strong> 90 seconds</p>
-                    <p>🏆 <strong>Victory:</strong> Find all 6 different node types</p>
-                    <p style="color: #ff0000;">⚠️ <strong>DANGER:</strong> Avoid red Virus Nodes ☠️ - they steal 3 seconds!</p>
-                    <p style="color: #ff6600;">🚨 <strong>BEWARE:</strong> Some nodes may be corrupted decoys 📚 - look carefully!</p>
+                    <p>🎯 <strong>Mission:</strong> Collect all 6 content nodes before the Mind Flayer tracks you!</p>
+                    <p>⚡ <strong>Controls:</strong> Click or tap nodes to collect them</p>
+                    <p>⏱️ <strong>Time Limit:</strong> 10 seconds</p>
+                    <p>🏆 <strong>Victory:</strong> Find all 6 different node types to escape</p>
+                    <p style="color: #ff0000;">⚠️ <strong>DANGER:</strong> Avoid Corrupted References 📚 - they steal 3 seconds of your escape time!</p>
+                    <p style="color: #ff6600;">🚨 <strong>BEWARE:</strong> Infected Documentation 📋 are deadly decoys - don't touch them!</p>
                 </div>
             </div>
         </div>
@@ -90,7 +90,7 @@
                     </div>
                     <div class="timer-display">
                         <span class="label">Time:</span>
-                        <span id="timer">90</span>
+                        <span id="timer">10</span>
                     </div>
                 </div>
                 <div class="hud-right">
@@ -120,9 +120,9 @@
         <!-- End Screen -->
         <div id="end-screen" class="screen">
             <div class="end-container">
-                <h2 id="end-title">Mission Complete!</h2>
+                <h2 id="end-title">Escape Complete!</h2>
                 <div id="end-message">
-                    <p>You've successfully navigated the Knowledge Universe!</p>
+                    <p>You've successfully escaped the Upside Down and returned to Hawkins!</p>
                 </div>
                 <div class="final-stats">
                     <div class="stat">
@@ -142,8 +142,8 @@
                 <div id="achievement-display"></div>
                 
                 <div class="end-controls">
-                    <button id="play-again-btn" class="neon-button">Hunt Again</button>
-                    <button id="home-btn" class="neon-button secondary">Return to Start</button>
+                    <button id="play-again-btn" class="neon-button">Return to the Upside Down</button>
+                    <button id="home-btn" class="neon-button secondary">Back to Hawkins</button>
                 </div>
             </div>
         </div>
@@ -152,10 +152,10 @@
         <div id="pause-screen" class="screen overlay">
             <div class="pause-container">
                 <h2>Game Paused</h2>
-                <p>Take a break, the Knowledge Universe will wait...</p>
+                <p>Take a breath... the Upside Down waits...</p>
                 <div class="pause-controls">
-                    <button id="resume-btn" class="neon-button">Resume Hunt</button>
-                    <button id="quit-btn" class="neon-button secondary">Quit to Start</button>
+                    <button id="resume-btn" class="neon-button">Resume Escape</button>
+                    <button id="quit-btn" class="neon-button secondary">Flee to Hawkins</button>
                 </div>
             </div>
         </div>
