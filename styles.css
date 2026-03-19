@@ -1,5 +1,5 @@
 /* ========================================
-   Knowledge Node Hunt - Cyberpunk Neon Styles
+   Escape the Upside Down - Stranger Things Styles
    ======================================== */
 
 /* Base Reset & Typography */
@@ -11,8 +11,8 @@
 
 body {
     font-family: 'Courier New', 'Consolas', monospace;
-    background: #0a0a0a;
-    color: #00ffff;
+    background: #0d0d0d;
+    color: #ff4444;
     overflow: hidden;
     height: 100vh;
 }
@@ -26,19 +26,20 @@ body::before {
     width: 100%;
     height: 100%;
     background: 
-        radial-gradient(circle at 20% 50%, rgba(0, 255, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 80% 20%, rgba(255, 0, 255, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 40% 80%, rgba(0, 255, 0, 0.1) 0%, transparent 50%),
-        linear-gradient(45deg, #0a0a0a 25%, transparent 25%),
-        linear-gradient(-45deg, #0a0a0a 25%, transparent 25%);
+        radial-gradient(circle at 20% 50%, rgba(255, 68, 68, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 40% 80%, rgba(255, 140, 0, 0.1) 0%, transparent 50%),
+        linear-gradient(45deg, #0d0d0d 25%, transparent 25%),
+        linear-gradient(-45deg, #0d0d0d 25%, transparent 25%);
     background-size: 100% 100%, 100% 100%, 100% 100%, 60px 60px, 60px 60px;
-    opacity: 0.3;
+    opacity: 0.4;
     z-index: -1;
-    animation: backgroundPulse 8s ease-in-out infinite alternate;
+    animation: backgroundFlicker 6s ease-in-out infinite alternate;
 }
 
-@keyframes backgroundPulse {
-    0% { opacity: 0.1; }
+@keyframes backgroundFlicker {
+    0% { opacity: 0.2; }
+    50% { opacity: 0.4; }
     100% { opacity: 0.3; }
 }
 
@@ -91,19 +92,19 @@ body::before {
 .game-title {
     font-size: clamp(2.5rem, 8vw, 4.5rem);
     font-weight: bold;
-    background: linear-gradient(45deg, #00ffff, #ff00ff, #ffff00);
+    background: linear-gradient(45deg, #ff4444, #8b0000, #ff8c00);
     background-size: 200% 200%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    animation: neonGlow 3s ease-in-out infinite alternate, gradientShift 4s ease-in-out infinite;
-    text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
+    animation: strangerGlow 3s ease-in-out infinite alternate, gradientShift 4s ease-in-out infinite;
+    text-shadow: 0 0 30px rgba(255, 68, 68, 0.7);
     margin-bottom: 10px;
 }
 
-@keyframes neonGlow {
-    from { text-shadow: 0 0 30px rgba(0, 255, 255, 0.5), 0 0 60px rgba(0, 255, 255, 0.3); }
-    to { text-shadow: 0 0 50px rgba(0, 255, 255, 0.8), 0 0 80px rgba(0, 255, 255, 0.5); }
+@keyframes strangerGlow {
+    from { text-shadow: 0 0 30px rgba(255, 68, 68, 0.7), 0 0 60px rgba(139, 0, 0, 0.5); }
+    to { text-shadow: 0 0 50px rgba(255, 68, 68, 0.9), 0 0 80px rgba(139, 0, 0, 0.7); }
 }
 
 @keyframes gradientShift {
@@ -114,9 +115,9 @@ body::before {
 
 .tagline {
     font-size: clamp(1rem, 3vw, 1.5rem);
-    color: #ff00ff;
+    color: #ff8c00;
     margin-bottom: 5px;
-    text-shadow: 0 0 20px rgba(255, 0, 255, 0.5);
+    text-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
 }
 
 .subtitle {
@@ -133,11 +134,11 @@ body::before {
     border-radius: 15px;
     padding: 60px;
     margin-bottom: 30px;
-    box-shadow: 0 0 30px rgba(0, 255, 255, 0.3);
+    box-shadow: 0 0 30px rgba(255, 68, 68, 0.4);
 }
 
 .node-legend h3 {
-    color: #00ffff;
+    color: #ff4444;
     margin-bottom: 20px;
     font-size: 2.1rem;
 }
@@ -207,7 +208,7 @@ body::before {
 
 .instructions {
     background: rgba(0, 0, 0, 0.7);
-    border: 1px solid #00ffff;
+    border: 1px solid #ff4444;
     border-radius: 10px;
     padding: 12px;
     max-width: 600px;
@@ -233,7 +234,7 @@ body::before {
     align-items: stretch;
     padding: 15px 20px;
     background: rgba(0, 0, 0, 0.8);
-    border-bottom: 2px solid #00ffff;
+    border-bottom: 2px solid #ff4444;
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
     height: 80px;
 }
@@ -430,8 +431,8 @@ body::before {
     bottom: 20px;
     left: 20px;
     background: rgba(0, 0, 0, 0.8);
-    border: 2px solid #00ffff;
-    color: #00ffff;
+    border: 2px solid #ff4444;
+    color: #ff4444;
     padding: 10px 15px;
     border-radius: 25px;
     cursor: pointer;
@@ -492,7 +493,7 @@ body::before {
 }
 
 .stat-label {
-    color: #00ffff;
+    color: #ff4444;
 }
 
 .stat-value {
@@ -520,7 +521,7 @@ body::before {
 
 .pause-container {
     background: rgba(0, 0, 0, 0.9);
-    border: 2px solid #ff00ff;
+    border: 2px solid #ff8c00;
     border-radius: 20px;
     padding: 40px;
     text-align: center;
@@ -540,7 +541,7 @@ body::before {
 /* Special styling for the main start button */
 #start-btn {
     background: linear-gradient(45deg, rgba(0, 255, 255, 0.2), rgba(255, 0, 255, 0.2));
-    border: 3px solid #00ffff;
+    border: 3px solid #ff4444;
     color: #ffffff;
     padding: 18px 32px;
     font-size: 1.3rem;
@@ -568,7 +569,7 @@ body::before {
 @keyframes startButtonPulse {
     from { 
         box-shadow: 0 0 40px rgba(0, 255, 255, 0.4), inset 0 0 20px rgba(255, 255, 255, 0.1);
-        border-color: #00ffff;
+        border-color: #ff4444;
     }
     to { 
         box-shadow: 0 0 60px rgba(0, 255, 255, 0.7), inset 0 0 30px rgba(255, 255, 255, 0.2);
@@ -578,8 +579,8 @@ body::before {
 
 .neon-button {
     background: transparent;
-    border: 2px solid #00ffff;
-    color: #00ffff;
+    border: 2px solid #ff4444;
+    color: #ff4444;
     padding: 12px 24px;
     font-size: 1rem;
     font-family: inherit;
@@ -599,8 +600,8 @@ body::before {
 }
 
 .neon-button.secondary {
-    border-color: #ff00ff;
-    color: #ff00ff;
+    border-color: #ff8c00;
+    color: #ff8c00;
 }
 
 .neon-button.secondary:hover {
