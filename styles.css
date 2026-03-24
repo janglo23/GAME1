@@ -1,6 +1,18 @@
 /* ========================================
    Escape the Upside Down - Stranger Things Styles
+   Auto-Fit Responsive Design for Any Screen
    ======================================== */
+
+/* CSS Custom Properties for Dynamic Scaling */
+:root {
+    --min-touch-target: 44px;
+    --base-font-size: clamp(14px, 2.5vw, 18px);
+    --game-padding: clamp(10px, 2vw, 30px);
+    --element-gap: clamp(8px, 1.5vw, 20px);
+    --border-radius-small: clamp(6px, 1vw, 12px);
+    --border-radius-medium: clamp(10px, 2vw, 20px);
+    --border-radius-large: clamp(15px, 3vw, 35px);
+}
 
 /* Base Reset & Typography */
 * {
@@ -15,6 +27,11 @@ body {
     color: #ff4444;
     overflow: hidden;
     height: 100vh;
+    min-height: 100vh;
+    width: 100vw;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 /* Animated Background */
@@ -47,9 +64,11 @@ body::before {
 #game-root {
     width: 100vw;
     height: 100vh;
+    max-height: 100vh;
     position: relative;
     display: flex;
     flex-direction: column;
+    overflow: hidden;
 }
 
 /* Screen Management */
@@ -79,18 +98,21 @@ body::before {
    ======================================== */
 
 #start-screen {
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
     text-align: center;
-    padding: 20px;
+    padding: clamp(10px, 3vh, 30px);
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .title-container {
-    margin-bottom: 40px;
+    margin-bottom: clamp(15px, 3vh, 25px);
+    margin-top: clamp(5px, 1vh, 15px);
 }
 
 .game-title {
-    font-size: clamp(2.5rem, 8vw, 4.5rem);
+    font-size: clamp(2rem, 6vw, 3.5rem);
     font-weight: bold;
     background: linear-gradient(45deg, #ff4444, #8b0000, #ff8c00);
     background-size: 200% 200%;
@@ -99,7 +121,7 @@ body::before {
     background-clip: text;
     animation: strangerGlow 3s ease-in-out infinite alternate, gradientShift 4s ease-in-out infinite;
     text-shadow: 0 0 30px rgba(255, 68, 68, 0.7);
-    margin-bottom: 10px;
+    margin-bottom: 8px;
 }
 
 @keyframes strangerGlow {
@@ -114,16 +136,16 @@ body::before {
 }
 
 .tagline {
-    font-size: clamp(1rem, 3vw, 1.5rem);
+    font-size: clamp(0.9rem, 2.5vw, 1.3rem);
     color: #ff8c00;
-    margin-bottom: 5px;
+    margin-bottom: 4px;
     text-shadow: 0 0 20px rgba(255, 140, 0, 0.6);
 }
 
 .subtitle {
-    font-size: clamp(0.8rem, 2vw, 1.2rem);
+    font-size: clamp(0.7rem, 1.8vw, 1.1rem);
     color: #00ff00;
-    margin-bottom: 20px;
+    margin-bottom: 15px;
     text-shadow: 0 0 15px rgba(0, 255, 0, 0.4);
 }
 
@@ -131,36 +153,45 @@ body::before {
 .node-legend {
     background: rgba(0, 255, 255, 0.1);
     border: 2px solid #00ffff;
-    border-radius: 15px;
-    padding: 60px;
-    margin-bottom: 30px;
+    border-radius: clamp(6px, 1.5vw, 12px);
+    padding: clamp(12px, 3vw, 25px);
+    margin-bottom: clamp(10px, 2vh, 20px);
     box-shadow: 0 0 30px rgba(255, 68, 68, 0.4);
+    max-width: min(95vw, 700px);
+    width: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
 
 .node-legend h3 {
     color: #ff4444;
-    margin-bottom: 20px;
-    font-size: 2.1rem;
+    margin-bottom: clamp(8px, 1.5vh, 15px);
+    font-size: clamp(1.1rem, 3.5vw, 1.8rem);
 }
 
 .legend-grid {
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    max-width: 500px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(6px, 1.5vw, 12px);
+    max-width: 100%;
     margin: 0 auto;
+    align-items: stretch;
 }
 
 .legend-item {
     display: flex;
     flex-direction: row;
     align-items: center;
-    padding: 8px 10px;
-    border-radius: 6px;
+    padding: clamp(6px, 1.5vw, 10px);
+    border-radius: clamp(4px, 1vw, 6px);
     transition: all 0.3s ease;
     border: 2px solid transparent;
     background: rgba(0, 0, 0, 0.3);
-    gap: 10px;
+    gap: clamp(6px, 1.5vw, 10px);
+    min-height: 42px;
+    box-sizing: border-box;
+    overflow: hidden;
+    word-wrap: break-word;
 }
 
 .legend-item:hover {
@@ -176,8 +207,10 @@ body::before {
 .legend-item.process { border-color: #ffcc00; color: #ffcc00; }
 
 .node-icon {
-    font-size: 1.8rem;
+    font-size: clamp(1rem, 2.5vw, 1.6rem);
     flex-shrink: 0;
+    width: clamp(24px, 5vw, 32px);
+    text-align: center;
 }
 
 .node-info {
@@ -185,17 +218,30 @@ body::before {
     flex-direction: column;
     align-items: flex-start;
     flex-grow: 1;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
 }
 
 .node-name {
     font-weight: bold;
-    font-size: 1.50rem;
+    font-size: clamp(0.75rem, 2.2vw, 1rem);
     margin-bottom: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    line-height: 1.1;
 }
 
 .node-desc {
-    font-size: 0.9rem;
+    font-size: clamp(0.6rem, 1.8vw, 0.8rem);
     opacity: 0.8;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    line-height: 1.1;
 }
 
 /* Start Controls */
@@ -232,23 +278,30 @@ body::before {
     display: flex;
     justify-content: space-between;
     align-items: stretch;
-    padding: 15px 20px;
+    padding: clamp(6px, 1.5vh, 15px);
     background: rgba(0, 0, 0, 0.8);
     border-bottom: 2px solid #ff4444;
     box-shadow: 0 0 20px rgba(0, 255, 255, 0.3);
-    height: 80px;
+    height: clamp(55px, 12vh, 75px);
+    max-height: 75px;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    gap: clamp(8px, 1.5vw, 15px);
 }
 
 .hud-left, .hud-right {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: clamp(15px, 3vw, 30px);
+    flex-wrap: wrap;
 }
 
 .score-display, .timer-display {
     display: flex;
     flex-direction: column;
     align-items: center;
+    font-size: clamp(0.9rem, 2.5vw, 1.2rem);
+    font-weight: bold;
 }
 
 .label {
@@ -269,17 +322,47 @@ body::before {
 
 #timer {
     color: #00ff00;
-    transition: color 0.3s ease;
+    transition: all 0.3s ease;
+    font-size: clamp(1.5rem, 4vw, 2.2rem);
+    position: relative;
+    z-index: 10;
 }
 
 #timer.warning {
     color: #ff6600;
     animation: timerPulse 1s ease-in-out infinite alternate;
+    text-shadow: 0 0 15px currentColor;
 }
 
 #timer.danger {
     color: #ff0000;
     animation: timerPulse 0.5s ease-in-out infinite alternate;
+    text-shadow: 0 0 20px currentColor;
+    font-size: clamp(1.8rem, 5vw, 2.8rem);
+}
+
+#timer.critical {
+    color: #ff0000;
+    animation: criticalCountdown 0.3s ease-in-out infinite alternate;
+    text-shadow: 
+        0 0 30px #ff0000,
+        0 0 60px #ff0000,
+        0 0 90px #ff0000;
+    font-size: clamp(2.5rem, 8vw, 4rem);
+    font-weight: 900;
+    transform: scale(1.5);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1.5);
+    z-index: 1000;
+    background: rgba(0, 0, 0, 0.8);
+    padding: clamp(10px, 3vw, 20px);
+    border-radius: 15px;
+    border: 3px solid #ff0000;
+    box-shadow: 
+        0 0 50px rgba(255, 0, 0, 0.8),
+        inset 0 0 30px rgba(255, 0, 0, 0.3);
 }
 
 @keyframes timerPulse {
@@ -287,7 +370,75 @@ body::before {
     to { transform: scale(1.1); }
 }
 
-/* Nodes Collected Display */
+@keyframes criticalCountdown {
+    0% { 
+        transform: translate(-50%, -50%) scale(1.3);
+        box-shadow: 
+            0 0 30px rgba(255, 0, 0, 0.8),
+            inset 0 0 20px rgba(255, 0, 0, 0.3);
+        opacity: 0.9;
+    }
+    50% {
+        transform: translate(-50%, -50%) scale(1.6);
+        box-shadow: 
+            0 0 80px rgba(255, 0, 0, 1),
+            0 0 120px rgba(255, 0, 0, 0.8),
+            inset 0 0 40px rgba(255, 0, 0, 0.5);
+        opacity: 1;
+    }
+    100% { 
+        transform: translate(-50%, -50%) scale(1.4);
+        box-shadow: 
+            0 0 60px rgba(255, 0, 0, 0.9),
+            inset 0 0 30px rgba(255, 0, 0, 0.4);
+        opacity: 0.95;
+    }
+}
+
+/* Screen-wide critical countdown effects */
+body.critical-countdown::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: radial-gradient(circle, rgba(255,0,0,0.1) 0%, rgba(255,0,0,0.05) 50%, transparent 100%);
+    z-index: 500;
+    animation: screenFlash 0.6s ease-in-out infinite alternate;
+    pointer-events: none;
+}
+
+@keyframes screenFlash {
+    0% { 
+        opacity: 0.2;
+        background: radial-gradient(circle, rgba(255,0,0,0.15) 0%, rgba(255,0,0,0.08) 50%, transparent 100%);
+    }
+    100% { 
+        opacity: 0.6;
+        background: radial-gradient(circle, rgba(255,0,0,0.25) 0%, rgba(255,0,0,0.12) 50%, transparent 100%);
+    }
+}
+
+/* Mobile responsiveness for critical timer */
+@media (max-width: 480px) {
+    #timer.critical {
+        font-size: clamp(2rem, 12vw, 3rem);
+        padding: clamp(8px, 2vw, 15px);
+        border-radius: 10px;
+        top: 30%;
+    }
+}
+
+@media (orientation: landscape) and (max-height: 500px) {
+    #timer.critical {
+        font-size: clamp(1.8rem, 10vw, 2.5rem);
+        top: 25%;
+        padding: clamp(6px, 1.5vw, 12px);
+    }
+}
+
+/* Mobile responsiveness for critical timer */\n@media (max-width: 480px) {\n    #timer.critical {\n        font-size: clamp(2rem, 12vw, 3rem);\n        padding: clamp(8px, 2vw, 15px);\n        border-radius: 10px;\n        top: 30%;\n    }\n}\n\n@media (orientation: landscape) and (max-height: 500px) {\n    #timer.critical {\n        font-size: clamp(1.8rem, 10vw, 2.5rem);\n        top: 25%;\n        padding: clamp(6px, 1.5vw, 12px);\n    }\n}\n\n/* Nodes Collected Display */
 .nodes-collected {
     display: flex;
     flex-direction: column;
@@ -296,21 +447,26 @@ body::before {
 
 .collected-display {
     display: flex;
-    gap: 8px;
+    gap: clamp(8px, 1.5vw, 15px);
+    align-items: center;
+    flex-wrap: wrap;
 }
 
 .node-slot {
-    width: 40px;
-    height: 40px;
+    width: clamp(35px, 8vw, 45px);
+    height: clamp(35px, 8vw, 45px);
     display: flex;
     align-items: center;
     justify-content: center;
     border: 2px solid #333;
-    border-radius: 8px;
-    font-size: 1.2rem;
+    border-radius: clamp(6px, 1.5vw, 8px);
+    font-size: clamp(1rem, 2.5vw, 1.4rem);
     background: rgba(0, 0, 0, 0.5);
     transition: all 0.3s ease;
     opacity: 0.3;
+    cursor: pointer;
+    min-width: 44px;
+    min-height: 44px;
 }
 
 .node-slot.collected {
@@ -336,18 +492,27 @@ body::before {
     flex: 1;
     position: relative;
     overflow: hidden;
+    min-height: 0;
+    max-height: calc(100vh - 75px - 10px);
 }
 
 /* Content Nodes */
 .content-node {
     position: absolute;
-    width: 60px;
-    height: 60px;
+    width: clamp(40px, 8vw, 55px);
+    height: clamp(40px, 8vw, 55px);
     border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 1.8rem;
+    font-size: clamp(1.2rem, 2.8vw, 1.8rem);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border: 2px solid;
+    box-shadow: 0 0 15px;
+    min-width: 44px;
+    min-height: 44px;
+}
     cursor: pointer;
     transition: all 0.3s ease;
     border: 3px solid;
@@ -428,16 +593,22 @@ body::before {
 /* Control Buttons */
 .control-btn {
     position: fixed;
-    bottom: 20px;
-    left: 20px;
+    bottom: clamp(15px, 3vh, 25px);
+    left: clamp(15px, 3vw, 25px);
     background: rgba(0, 0, 0, 0.8);
     border: 2px solid #ff4444;
     color: #ff4444;
-    padding: 10px 15px;
-    border-radius: 25px;
+    padding: clamp(8px, 2vw, 12px) clamp(12px, 3vw, 18px);
+    border-radius: clamp(20px, 4vw, 30px);
     cursor: pointer;
     transition: all 0.3s ease;
     z-index: 100;
+    font-size: clamp(0.9rem, 2.5vw, 1.1rem);
+    min-width: 44px;
+    min-height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .control-btn:hover {
@@ -581,16 +752,23 @@ body::before {
     background: transparent;
     border: 2px solid #ff4444;
     color: #ff4444;
-    padding: 12px 24px;
-    font-size: 1rem;
+    padding: clamp(12px, 3vw, 20px) clamp(20px, 5vw, 40px);
+    font-size: clamp(1rem, 3vw, 1.3rem);
     font-family: inherit;
-    border-radius: 25px;
+    border-radius: clamp(20px, 5vw, 35px);
     cursor: pointer;
     transition: all 0.3s ease;
     position: relative;
     overflow: hidden;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: clamp(1px, 0.3vw, 2px);
+    font-weight: bold;
+    min-height: 44px;
+    min-width: 120px;
+    text-align: center;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .neon-button:hover {
@@ -617,88 +795,289 @@ body::before {
 }
 
 /* ========================================
-   RESPONSIVE DESIGN
+   COMPREHENSIVE RESPONSIVE DESIGN
    ======================================== */
 
-@media (max-width: 768px) {
+/* Large Desktop and 4K Screens (1440px+) */
+@media (min-width: 1440px) {
+    .game-title {
+        font-size: clamp(3.5rem, 6vw, 5.5rem);
+    }
+    
+    .node-legend {
+        max-width: 800px;
+        padding: clamp(40px, 8vw, 80px);
+    }
+    
+    .content-node {
+        width: clamp(65px, 8vw, 80px);
+        height: clamp(65px, 8vw, 80px);
+        font-size: clamp(2rem, 3vw, 2.5rem);
+    }
+}
+
+/* Tablets and Small Laptops (768px - 1023px) */
+@media (max-width: 1023px) and (min-width: 768px) {
     .game-hud {
-        flex-direction: column;
-        height: auto;
-        padding: 10px;
+        padding: clamp(12px, 2vh, 16px);
+        min-height: clamp(70px, 10vh, 90px);
+    }
+    
+    .legend-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: clamp(8px, 1.5vw, 12px);
+    }
+    
+    .legend-item {
+        min-height: 50px;
+        padding: clamp(10px, 2vw, 14px);
+    }
+    
+    .node-legend {
+        padding: clamp(25px, 4vw, 45px);
+        max-width: min(85vw, 700px);
+    }
+}
+
+/* Mobile Landscape and Small Tablets (481px - 767px) */
+@media (max-width: 767px) and (min-width: 481px) {
+    .game-hud {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        min-height: clamp(80px, 12vh, 100px);
+        padding: clamp(8px, 2vh, 15px);
+    }
+    
+    body {
+        font-size: clamp(14px, 3vw, 16px);
+    }
+    
+    .legend-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: clamp(6px, 1.5vw, 10px);
+        justify-items: stretch;
+    }
+    
+    .legend-item {
+        min-height: 50px;
+        padding: clamp(10px, 2.5vw, 14px);
+        gap: clamp(8px, 2vw, 12px);
+    }
+    
+    .content-node {
+        width: clamp(55px, 10vw, 65px);
+        height: clamp(55px, 10vw, 65px);
+        font-size: clamp(1.8rem, 4vw, 2.1rem);
+    }
+    
+    .collected-display {
+        gap: clamp(6px, 1.2vw, 10px);
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+}
+
+/* Medium Mobile Screens (481px - 600px specific fix for overlapping) */
+@media (max-width: 600px) and (min-width: 481px) {
+    .legend-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: clamp(8px, 2vw, 12px);
+    }
+    
+    .legend-item {
+        font-size: clamp(0.8rem, 2vw, 0.95rem);
+        padding: clamp(8px, 2vw, 12px);
+    }
+    
+    .node-name {
+        font-size: clamp(0.8rem, 2vw, 0.95rem);
+    }
+    
+    .node-desc {
+        font-size: clamp(0.65rem, 1.6vw, 0.8rem);
+    }
+}
+
+/* Mobile Portrait (320px - 480px) */
+@media (max-width: 480px) {
+    body {
+        font-size: clamp(12px, 4vw, 14px);
+    }
+    
+    .game-hud {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        height: clamp(50px, 10vh, 65px);
+        max-height: 65px;
+        padding: clamp(6px, 1.5vh, 10px);
+        gap: clamp(8px, 2vh, 12px);
     }
     
     .hud-left, .hud-right {
         justify-content: center;
-        gap: 15px;
+        gap: clamp(8px, 2vw, 15px);
+        flex-wrap: nowrap;
     }
     
     .legend-grid {
         grid-template-columns: 1fr 1fr;
-        max-width: 100%;
-        gap: 4px;
-    }
-    
-    .content-node {
-        width: 50px;
-        height: 50px;
-        font-size: 1.5rem;
-    }
-    
-    .collected-display {
-        flex-wrap: wrap;
-    }
-    
-    .node-slot {
-        width: 35px;
-        height: 35px;
-        font-size: 1rem;
-    }
-    
-    #start-btn {
-        padding: 15px 28px;
-        font-size: 1.1rem;
-        border-radius: 30px;
-    }
-}
-
-@media (max-width: 480px) {
-    .legend-grid {
-        grid-template-columns: 1fr;
-        gap: 3px;
+        gap: clamp(6px, 1.5vh, 10px);
+        justify-items: stretch;
     }
     
     .legend-item {
-        padding: 6px 8px;
-        gap: 8px;
+        padding: clamp(6px, 2vw, 10px);
+        gap: clamp(6px, 1.5vw, 8px);
+        min-height: 40px;
+        margin-bottom: 0;
+        font-size: clamp(0.75rem, 2.8vw, 0.9rem);
     }
     
-    .node-icon {
-        font-size: 1.5rem;
+    .content-node {
+        width: clamp(48px, 12vw, 55px);
+        height: clamp(48px, 12vw, 55px);
+        font-size: clamp(1.6rem, 5vw, 1.9rem);
     }
     
-    .node-name {
-        font-size: 0.85rem;
-    }
-    
-    .node-desc {
-        font-size: 0.65rem;
+    .node-slot {
+        width: clamp(40px, 8vw, 48px);
+        height: clamp(40px, 8vw, 48px);
+        font-size: clamp(1.1rem, 3vw, 1.3rem);
     }
     
     .end-controls, .pause-controls {
         flex-direction: column;
         align-items: center;
+        gap: clamp(10px, 3vw, 15px);
+    }
+    
+    .neon-button {
+        width: 90%;
+        max-width: 280px;
+        padding: clamp(14px, 4vw, 18px);
+        font-size: clamp(1rem, 4vw, 1.2rem);
+    }
+}
+
+/* Very Small Screens (less than 320px) */
+@media (max-width: 319px) {
+    .game-title {
+        font-size: clamp(1.8rem, 8vw, 2.5rem);
+    }
+    
+    .node-legend {
+        padding: clamp(8px, 2.5vw, 15px);
+        margin-bottom: clamp(8px, 1.5vh, 15px);
+        max-width: 98vw;
+    }
+    
+    .legend-grid {
+        grid-template-columns: repeat(3, 1fr);
+        gap: clamp(3px, 1vh, 6px);
+    }
+    
+    .legend-item {
+        padding: clamp(8px, 3vw, 12px);
+        gap: clamp(6px, 2vw, 10px);
+        min-height: 50px;
+        font-size: clamp(0.8rem, 3.5vw, 1rem);
+    }
+    
+    .node-name {
+        font-size: clamp(0.8rem, 3.5vw, 1rem);
+        line-height: 1.2;
+    }
+    
+    .node-desc {
+        font-size: clamp(0.65rem, 3vw, 0.85rem);
+        line-height: 1.1;
     }
     
     .content-node {
-        width: 45px;
-        height: 45px;
-        font-size: 1.3rem;
+        width: clamp(44px, 15vw, 50px);
+        height: clamp(44px, 15vw, 50px);
+        font-size: clamp(1.4rem, 6vw, 1.7rem);
     }
     
-    #start-btn {
-        padding: 12px 20px;
-        font-size: 1rem;
-        border-radius: 25px;
-        letter-spacing: 1px;
+    .instructions {
+        font-size: clamp(0.7rem, 3vw, 0.9rem);
+        padding: clamp(10px, 3vw, 15px);
+    }
+}
+
+/* Landscape Orientation Adjustments */
+@media (orientation: landscape) and (max-height: 500px) {
+    #start-screen {
+        justify-content: flex-start;
+        overflow-y: hidden;
+        padding: clamp(5px, 1vh, 10px);
+    }
+    
+    .title-container {
+        margin-top: clamp(5px, 1vh, 8px);
+        margin-bottom: clamp(8px, 1.5vh, 15px);
+    }
+    
+    .node-legend {
+        padding: clamp(8px, 1.5vw, 15px);
+        margin-bottom: clamp(6px, 1vh, 12px);
+    }
+    
+    .game-hud {
+        height: clamp(45px, 8vh, 60px);
+        max-height: 60px;
+        padding: clamp(4px, 1vh, 8px);
+    }
+    
+    .instructions {
+        margin-top: clamp(8px, 1.5vh, 12px);
+        padding: clamp(8px, 1.5vw, 15px);
+    }
+    
+    #game-arena {
+        max-height: calc(100vh - 60px - 5px);
+    }
+}
+
+/* High DPI / Retina Display Adjustments */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 2dppx) {
+    .content-node {
+        border-width: 2px;
+    }
+    
+    .node-slot {
+        border-width: 1.5px;
+    }
+    
+    .neon-button {
+        border-width: 1.5px;
+    }
+}
+
+/* Reduced Motion Preferences */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+    
+    .content-node:hover {
+        transform: none;
+    }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+    .content-node {
+        border-width: 3px;
+        box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.5);
+    }
+    
+    .neon-button {
+        border-width: 3px;
+        font-weight: bold;
     }
 }
