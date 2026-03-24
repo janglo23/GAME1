@@ -198,6 +198,10 @@ function startGame() {
     gameState.gameStartTime = Date.now();
     gameState.lastNodeSpawn = 0;
     
+    // Clean up any leftover critical countdown effects
+    document.body.classList.remove('critical-countdown');
+    elements.timer.className = '';
+    
     // Clear arena
     elements.gameArena.innerHTML = '';
     
@@ -221,6 +225,10 @@ function pauseGame() {
     if (!gameState.isPlaying || gameState.isPaused) return;
     
     gameState.isPaused = true;
+    
+    // Clean up critical countdown effects during pause
+    document.body.classList.remove('critical-countdown');
+    
     clearTimers();
     showScreen('pause');
 }
@@ -242,6 +250,10 @@ function endGame(victory = false) {
     gameState.isPlaying = false;
     gameState.isPaused = false;
     clearTimers();
+    
+    // Clean up critical countdown effects
+    document.body.classList.remove('critical-countdown');
+    elements.timer.className = '';
     
     // Calculate final stats
     const timeUsed = 10 - gameState.timeRemaining;
@@ -448,11 +460,16 @@ function selectNodeType() {
 
 function getRandomPosition() {
     const arena = elements.gameArena.getBoundingClientRect();
-    const nodeSize = 60;
+    const nodeSize = 45; // Reduced from 60 to match smaller content nodes
+    const padding = 10; // Extra padding from edges
+    
+    // Ensure we don't position nodes off screen
+    const maxWidth = Math.max(arena.width - (nodeSize * 2) - padding, nodeSize + padding);
+    const maxHeight = Math.max(arena.height - (nodeSize * 2) - padding, nodeSize + padding);
     
     return {
-        x: Math.random() * (arena.width - nodeSize * 2) + nodeSize,
-        y: Math.random() * (arena.height - nodeSize * 2) + nodeSize
+        x: Math.random() * maxWidth + nodeSize + (padding / 2),
+        y: Math.random() * maxHeight + nodeSize + (padding / 2)
     };
 }
 
@@ -653,12 +670,19 @@ function updateTimer() {
     const timeDisplay = Math.ceil(gameState.timeRemaining);
     elements.timer.textContent = timeDisplay;
     
-    // Change color based on time remaining
+    // Change color and effects based on time remaining
     elements.timer.className = '';
-    if (timeDisplay <= 10) {
-        elements.timer.classList.add('danger');
-    } else if (timeDisplay <= 30) {
-        elements.timer.classList.add('warning');
+    if (timeDisplay <= 3) {
+        elements.timer.classList.add('critical');
+        // Add screen flash effect for critical countdown
+        document.body.classList.add('critical-countdown');
+    } else {
+        document.body.classList.remove('critical-countdown');
+        if (timeDisplay <= 5) {
+            elements.timer.classList.add('danger');
+        } else if (timeDisplay <= 7) {
+            elements.timer.classList.add('warning');
+        }
     }
 }
 
